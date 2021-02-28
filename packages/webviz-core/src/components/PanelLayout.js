@@ -179,4 +179,4 @@ const ConnectedPanelLayout = ({ importHooks = true }: { importHooks?: boolean },
     />
   );
 };
-export default forwardRef<{ importHooks?: boolean }, _>((props, ref) => ConnectedPanelLayout(props, ref));
+export default forwardRef < { importHooks?: boolean }, _ > ((props, ref) => ConnectedPanelLayout(props, ref));

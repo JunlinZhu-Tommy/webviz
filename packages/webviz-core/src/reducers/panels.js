@@ -76,18 +76,18 @@ export const defaultPlaybackConfig: PlaybackConfig = {
 
 export type PanelsState = {|
   layout: ?MosaicNode,
-  // We store config for each panel in a hash keyed by the panel id.
-  // This should at some point be renamed to `config` or `configById` or so,
-  // but it's inconvenient to have this diverge from `PANEL_PROPS_KEY`.
-  savedProps: SavedProps,
-  globalVariables: GlobalVariables,
-  // old state which is migrated to globalVariables. Keeping it here to satisfy flow
-  globalData?: GlobalVariables,
-  userNodes: UserNodes,
-  linkedGlobalVariables: LinkedGlobalVariables,
-  playbackConfig: PlaybackConfig,
-  restrictedTopics?: string[],
-  version?: number,
+    // We store config for each panel in a hash keyed by the panel id.
+    // This should at some point be renamed to `config` or `configById` or so,
+    // but it's inconvenient to have this diverge from `PANEL_PROPS_KEY`.
+    savedProps: SavedProps,
+      globalVariables: GlobalVariables,
+        // old state which is migrated to globalVariables. Keeping it here to satisfy flow
+        globalData ?: GlobalVariables,
+        userNodes: UserNodes,
+          linkedGlobalVariables: LinkedGlobalVariables,
+            playbackConfig: PlaybackConfig,
+              restrictedTopics ?: string[],
+              version ?: number,
 |};
 
 export const setPersistedStateInLocalStorage = (persistedState: PersistedState) => {
@@ -220,22 +220,22 @@ function savePanelConfigs(state: PanelsState, payload: SaveConfigsPayload): Pane
     return override
       ? { ...currentSavedProps, [id]: config }
       : {
-          ...currentSavedProps,
-          [id]: {
-            // merge new config with old one
-            // similar to how this.setState merges props
-            // When updating the panel state, we merge the new config (which may be just a part of config) with the old config and the default config every time.
-            // Previously this was done inside the component, but since the lifecycle of Redux is Action => Reducer => new state => Component,
-            // dispatching an update to the panel state is not instant and can take some time to propagate back to the component.
-            // If the existing panel config is the complete config1, and two actions were fired in quick succession the component with partial config2 and config3,
-            // the correct behavior is to merge config2 with config1 and dispatch that, and then merge config 3 with the combined config2 and config1.
-            // Instead we had stale state so we would merge config3 with config1 and overwrite any keys that exist in config2 but do not exist in config3.
-            // The solution is to do this merge inside the reducer itself, since the state inside the reducer is never stale (unlike the state inside the component).
-            ...defaultConfig,
-            ...currentSavedProps[id],
-            ...config,
-          },
-        };
+        ...currentSavedProps,
+        [id]: {
+          // merge new config with old one
+          // similar to how this.setState merges props
+          // When updating the panel state, we merge the new config (which may be just a part of config) with the old config and the default config every time.
+          // Previously this was done inside the component, but since the lifecycle of Redux is Action => Reducer => new state => Component,
+          // dispatching an update to the panel state is not instant and can take some time to propagate back to the component.
+          // If the existing panel config is the complete config1, and two actions were fired in quick succession the component with partial config2 and config3,
+          // the correct behavior is to merge config2 with config1 and dispatch that, and then merge config 3 with the combined config2 and config1.
+          // Instead we had stale state so we would merge config3 with config1 and overwrite any keys that exist in config2 but do not exist in config3.
+          // The solution is to do this merge inside the reducer itself, since the state inside the reducer is never stale (unlike the state inside the component).
+          ...defaultConfig,
+          ...currentSavedProps[id],
+          ...config,
+        },
+      };
   }, state.savedProps);
   const tabPanelConfigSaved = configs.find(({ id }) => getPanelTypeFromId(id) === TAB_PANEL_TYPE);
   if (tabPanelConfigSaved) {
@@ -302,9 +302,9 @@ const splitPanel = (state, { id, tabId, direction, config, root, path }): Panels
     const relatedConfigs =
       type === TAB_PANEL_TYPE
         ? getPanelIdsInsideTabPanels([id], savedProps).reduce(
-            (res, panelId) => ({ ...res, [panelId]: savedProps[panelId] }),
-            {}
-          )
+          (res, panelId) => ({ ...res, [panelId]: savedProps[panelId] }),
+          {}
+        )
         : null;
     newPanelsState = savePanelConfigs(
       newPanelsState,
@@ -494,12 +494,12 @@ const dragWithinSameTab = (
     sourceTabChildConfigs,
   }: {|
     originalLayout: MosaicNode,
-    sourceTabId: string,
-    position: ?MosaicDropTargetPosition,
-    destinationPath: ?MosaicPath,
-    ownPath: MosaicPath,
-    sourceTabConfig: PanelConfig,
-    sourceTabChildConfigs: ConfigsPayload[],
+  sourceTabId: string,
+  position: ?MosaicDropTargetPosition,
+  destinationPath: ?MosaicPath,
+  ownPath: MosaicPath,
+  sourceTabConfig: PanelConfig,
+  sourceTabChildConfigs: ConfigsPayload[],
   |}
 ): PanelsState => {
   const currentTabLayout = sourceTabConfig.tabs[sourceTabConfig.activeTabIdx].layout;
@@ -540,12 +540,12 @@ const dragToMainFromTab = (
     sourceTabChildConfigs,
   }: {|
     originalLayout: MosaicNode,
-    sourceTabId: string,
-    position: MosaicDropTargetPosition,
-    destinationPath: MosaicPath,
-    ownPath: MosaicPath,
-    sourceTabConfig: PanelConfig,
-    sourceTabChildConfigs: ConfigsPayload[],
+      sourceTabId: string,
+        position: MosaicDropTargetPosition,
+          destinationPath: MosaicPath,
+            ownPath: MosaicPath,
+              sourceTabConfig: PanelConfig,
+                sourceTabChildConfigs: ConfigsPayload[],
   |}
 ): PanelsState => {
   const currentTabLayout = sourceTabConfig.tabs[sourceTabConfig.activeTabIdx].layout;
@@ -581,13 +581,13 @@ const dragToTabFromMain = (
     sourceTabChildConfigs,
   }: {|
     originalLayout: MosaicNode,
-    panelId: string,
-    targetTabId: string,
-    position: ?MosaicDropTargetPosition,
-    destinationPath: ?MosaicPath,
-    ownPath: MosaicPath,
-    targetTabConfig: ?PanelConfig,
-    sourceTabChildConfigs: ConfigsPayload[],
+  panelId: string,
+  targetTabId: string,
+  position: ?MosaicDropTargetPosition,
+  destinationPath: ?MosaicPath,
+  ownPath: MosaicPath,
+  targetTabConfig: ?PanelConfig,
+  sourceTabChildConfigs: ConfigsPayload[],
   |}
 ): PanelsState => {
   const saveConfigsPayload = addPanelToTab(panelId, destinationPath, position, targetTabConfig, targetTabId);
@@ -617,15 +617,15 @@ const dragToTabFromTab = (
     sourceTabChildConfigs,
   }: {|
     originalLayout: MosaicNode,
-    panelId: string,
-    sourceTabId: string,
-    targetTabId: string,
-    position: ?MosaicDropTargetPosition,
-    destinationPath: ?MosaicPath,
-    ownPath: MosaicPath,
-    targetTabConfig: ?PanelConfig,
-    sourceTabConfig: PanelConfig,
-    sourceTabChildConfigs: ConfigsPayload[],
+  panelId: string,
+  sourceTabId: string,
+  targetTabId: string,
+  position: ?MosaicDropTargetPosition,
+  destinationPath: ?MosaicPath,
+  ownPath: MosaicPath,
+  targetTabConfig: ?PanelConfig,
+  sourceTabConfig: PanelConfig,
+  sourceTabChildConfigs: ConfigsPayload[],
   |}
 ): PanelsState => {
   // Remove panel from tab layout
@@ -754,7 +754,7 @@ const endDrag = (panelsState: PanelsState, dragPayload: EndDragPayload): PanelsS
   return changePanelLayout(panelsState, { layout: newLayout, trimSavedProps: false });
 };
 
-const panelsReducer = function(state: State, action: ActionTypes): State {
+const panelsReducer = function (state: State, action: ActionTypes): State {
   // Make a copy of the persistedState before mutation.
   let newState = { ...state, persistedState: { ...state.persistedState, panels: { ...state.persistedState.panels } } };
 

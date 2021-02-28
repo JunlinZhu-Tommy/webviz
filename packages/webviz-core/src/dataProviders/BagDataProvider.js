@@ -107,6 +107,7 @@ export default class BagDataProvider implements DataProvider {
   }
 
   async initialize(extensionPoint: ExtensionPoint): Promise<InitializationResult> {
+    console.log("INIT BIG DATA PROVIDER");
     this._extensionPoint = extensionPoint;
     const { bagPath, cacheSizeInBytes } = this._options;
     await decompress.isLoaded;

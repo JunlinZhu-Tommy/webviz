@@ -83,6 +83,7 @@ function defaultPlayerState(): PlayerState {
 }
 
 type ProviderProps = {| children: React.Node, player?: ?Player, globalVariables?: GlobalVariables |};
+
 export function MessagePipelineProvider({ children, player, globalVariables = {} }: ProviderProps) {
   const currentPlayer = useRef<?Player>(undefined);
   const [playerState, setPlayerState] = useState<PlayerState>(defaultPlayerState);

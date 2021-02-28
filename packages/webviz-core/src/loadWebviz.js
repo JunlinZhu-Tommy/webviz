@@ -129,7 +129,7 @@ const defaultHooks = {
     if (process.env.NODE_ENV === "production" && window.ga) {
       window.ga("create", "UA-82819136-10", "auto");
     } else {
-      window.ga = function(...args) {
+      window.ga = function (...args) {
         console.log("[debug] ga:", ...args);
       };
     }
@@ -141,7 +141,7 @@ const defaultHooks = {
   getWorkerDataProviderWorker: () => {
     return require("webviz-core/src/dataProviders/WorkerDataProvider.worker");
   },
-  getAdditionalDataProviders: () => {},
+  getAdditionalDataProviders: () => { },
   experimentalFeaturesList() {
     return {
       diskBagCaching: {

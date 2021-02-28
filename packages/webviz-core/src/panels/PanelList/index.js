@@ -78,7 +78,7 @@ const SEmptyState = styled.div`
 type PresetSettings =
   | { config: TabPanelConfig, relatedConfigs: SavedProps }
   | {| config: PanelConfig, relatedConfigs: typeof undefined |};
-export type PanelListItem = {| title: string, component: React.ComponentType<any>, presetSettings?: PresetSettings |};
+export type PanelListItem = {| title: string, component: React.ComponentType < any >, presetSettings ?: PresetSettings |};
 
 // getPanelsByCategory() and getPanelsByType() are functions rather than top-level constants
 // in order to avoid issues with circular imports, such as
@@ -123,19 +123,19 @@ type DropDescription = {
 };
 type PanelItemProps = {
   panel: {| type: string, title: string, config: ?PanelConfig, relatedConfigs: ?SavedProps |},
-  searchQuery: string,
-  checked?: boolean,
-  highlighted?: boolean,
+searchQuery: string,
+  checked ?: boolean,
+  highlighted ?: boolean,
   onClick: () => void,
-  // the props here are actually used in the dragSource
-  // beginDrag and endDrag callbacks - the props are passed via react-dnd
-  // so keep the flow defs here so those functions can have access to some type info
-  mosaicId: string, //eslint-disable-line react/no-unused-prop-types
-  onDrop: (DropDescription) => void, //eslint-disable-line react/no-unused-prop-types
+    // the props here are actually used in the dragSource
+    // beginDrag and endDrag callbacks - the props are passed via react-dnd
+    // so keep the flow defs here so those functions can have access to some type info
+    mosaicId: string, //eslint-disable-line react/no-unused-prop-types
+      onDrop: (DropDescription) => void, //eslint-disable-line react/no-unused-prop-types
 };
 
 function DraggablePanelItem({ searchQuery, panel, onClick, onDrop, checked, highlighted, mosaicId }: PanelItemProps) {
-  const scrollRef = React.useRef<?HTMLDivElement>(null);
+  const scrollRef = React.useRef <? HTMLDivElement > (null);
   const [__, drag] = useDrag({
     item: { type: MosaicDragType.WINDOW },
     begin: (_monitor) => ({ mosaicId }),
@@ -194,7 +194,7 @@ export type PanelSelection = {
 };
 type Props = {|
   onPanelSelect: (PanelSelection) => void,
-  selectedPanelTitle?: string,
+    selectedPanelTitle ?: string,
 |};
 
 // sanity checks to help panel authors debug issues
@@ -215,8 +215,8 @@ function verifyPanels() {
         throw new Error(
           `Two components have the same panelType ('${panelType}') and same presetSettings: ${existingPanel.component
             .displayName ||
-            existingPanel.component.name ||
-            "<unnamed>"} and ${displayName || name || "<unnamed>"}`
+          existingPanel.component.name ||
+          "<unnamed>"} and ${displayName || name || "<unnamed>"}`
         );
       }
       panelTypes.set(panelType, { component, presetSettings });
@@ -226,7 +226,7 @@ function verifyPanels() {
 
 function PanelList(props: Props) {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [highlightedPanelIdx, setHighlightedPanelIdx] = React.useState<?number>(null);
+  const [highlightedPanelIdx, setHighlightedPanelIdx] = React.useState <? number > (null);
   const { onPanelSelect, selectedPanelTitle } = props;
 
   const dispatch = useDispatch();
@@ -387,6 +387,7 @@ function PanelList(props: Props) {
 PanelList.getComponentForType = (type: string): any | void => {
   const panelsByCategory = getPanelsByCategory();
   const allPanels = flatten(objectValues(panelsByCategory));
+
   // $FlowFixMe - bug prevents requiring panelType: https://stackoverflow.com/q/52508434/23649
   const panel = allPanels.find((item) => item.component.panelType === type);
   return panel?.component;

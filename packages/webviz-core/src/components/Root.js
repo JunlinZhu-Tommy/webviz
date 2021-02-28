@@ -40,15 +40,15 @@ const LOGO_SIZE = 24;
 
 type Props = {|
   history: any,
-  importPanelLayout: typeof importPanelLayout,
-  redoStateCount: number,
-  undoStateCount: number,
-  redoLayoutChange: () => void,
-  undoLayoutChange: () => void,
+    importPanelLayout: typeof importPanelLayout,
+      redoStateCount: number,
+        undoStateCount: number,
+          redoLayoutChange: () => void,
+            undoLayoutChange: () => void,
 |};
 
 function App({ importPanelLayout: importPanelLayoutProp }) {
-  const containerRef = useRef<?HTMLDivElement>(undefined);
+  const containerRef = useRef <? HTMLDivElement > (undefined);
   useEffect(() => {
     // Focus on page load to enable keyboard interaction.
     if (containerRef.current) {
@@ -103,7 +103,7 @@ function App({ importPanelLayout: importPanelLayoutProp }) {
   );
 }
 
-const ConnectedApp = connect<Props, { history: any }, _, _, _, _>(
+const ConnectedApp = connect < Props, { history: any }, _, _, _, _> (
   ({ layoutHistory: { redoStates, undoStates } }: State) => ({
     redoStateCount: redoStates.length,
     undoStateCount: undoStates.length,
